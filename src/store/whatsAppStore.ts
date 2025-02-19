@@ -44,6 +44,8 @@ const useWhatsAppStore = create<WhatsAppStoreI>()((set, get) => ({
 
   actions: {
     addMessage: (message) => {
+      const messagesId = get().messages.map((message) => message.idMessage)
+      if (messagesId.includes(message.idMessage)) return
       set((state) => ({messages: [...state.messages, message]}))
     },
 
@@ -95,9 +97,38 @@ const useWhatsAppStore = create<WhatsAppStoreI>()((set, get) => ({
       set({isLoading: true, error: null})
 
       try {
-        const response = sendMessage(instanceId, apiToken, chatId, message)
-        if (response) {
-          get().actions.fetchNotifications()
+        const response = await sendMessage(instanceId, apiToken, chatId, message)
+      
+        if (response?.idMessage) {
+          const newMessage: WebhookResponse.MessageWebhook = {
+            typeWebhook: 'outgoingMessageReceived',
+            instanceData: {
+              idInstance: parseInt(instanceId),
+              wid: chatId,
+              typeInstance: '',
+            },
+            timestamp: new Date().getTime(),
+            idMessage: response?.idMessage,
+            senderData: {
+              chatId: chatId,
+              sender: '',
+              chatName: '',
+              senderName: '',
+            },
+            messageData: {
+              typeMessage: 'extendedTextMessage',
+              extendedTextMessageData: {
+                text: message,
+                description: '',
+                title: '',
+                jpegThumbnail: '',
+                forwardingScore: 0,
+                isForwarded: false,
+              },
+            },
+          }
+
+          get().actions.addMessage(newMessage)
         }
       } catch (error) {
         set({error: error.message})
