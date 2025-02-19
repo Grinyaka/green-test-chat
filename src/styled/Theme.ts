@@ -2,18 +2,21 @@ import { Theme } from './types';
 
 export const MainTheme: Theme = {
   textColors: {
-    primary: 'var(--text-primary)',
-    secondary: '#a2a2a2',
-    dark: '#000000',
+    primary: '#ffffff',
+    secondary: '#8696a0',
+    accent: '#00a884',
   },
   backgroundColors: {
-    primary: '#292929',
-    secondary: '#121212',
-    card: '#1d1d1d',
-    button: '#03dac6',
-    buttonHover: '#6d6d6d',
-    accent: '#c38fff',
-    negative: '#ff407f',
+    primary: '#262524',
+    secondary: '#202c33',
+
+    card: '#111b21',
+    cardActive: '#2a3942',
+
+    button: '#0a332c',
+
+    accent: '#005c4b',
+    negative: '#f15c6d',
   },
   fontSizes: {
     small: 'var(--font-small)',

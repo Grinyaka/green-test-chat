@@ -1,5 +1,5 @@
 html {
-  background-color: #2b2a33;
+  background-color: #262524;
   font-family: 'roboto', sans-serif;
   width: 100dvw;
   height: 100dvh;
@@ -15,7 +15,7 @@ html {
   --font-large: 18px;
   --font-xlarge: 24px;
   --text-primary: #ffffff;
-  --text-secondary: #b3b3b3;
+  --text-secondary: #8696a0;
 }
 
 body {

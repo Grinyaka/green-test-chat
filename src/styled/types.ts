@@ -7,14 +7,15 @@ export type Theme = {
   textColors: {
     primary: string
     secondary: string
-    dark: string
+    accent: string
   }
   backgroundColors: {
     primary: string
     secondary: string
     card: string
+    cardActive: string
+
     button: string
-    buttonHover: string
     accent: string
     negative: string
   }
