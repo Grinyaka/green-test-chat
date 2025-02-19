@@ -2,6 +2,11 @@
 
 # WhatsApp Green Chat
 
-Use `npm`, `yarn` or `bun` to install WhatsApp Green Chat, then run `npm run dev` or `yarn dev` or `bun dev` to start the app locally.
+### Install
+Use `npm install`, `yarn install` or `bun install` to install dependencies
 
+### Local run
+Run `npm run dev` or `yarn dev` or `bun dev` to start the app locally.
+
+### Build
 To build use `npm run build` or `yarn build` or `bun build`
