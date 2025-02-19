@@ -73,7 +73,7 @@ export const receiveNotification = async (
   receiveTimeout: number = 10,
 ) => {
   const response = await fetch(
-    `${API_URL}/waInstance${idInstance}/receiveNotification/${apiTokenInstance}?receiveTimeout=${receiveTimeout}`,
+    `${API_URL}/waInstance${idInstance}/receiveNotification/${apiTokenInstance}`,
     {
       method: 'GET',
     },

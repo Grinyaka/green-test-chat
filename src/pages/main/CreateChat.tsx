@@ -9,13 +9,14 @@ const PhoneForm = styled.form`
   font-size: ${({theme}) => theme.fontSizes.medium};
   background-color: ${({theme}) => theme.backgroundColors.secondary};
   margin-bottom: 10px;
+  padding: 10px;
 `
 const PhoneInput = styled.input`
   all: unset;
   box-sizing: border-box;
 
   flex-grow: 1;
-  background-color: ${({theme}) => theme.backgroundColors.secondary};
+  background-color: ${({theme}) => theme.backgroundColors.cardActive};
   border-radius: 5px;
 
   padding: 5px 10px;
@@ -37,7 +38,7 @@ const PhoneButton = styled.button`
 
   &:disabled {
     cursor: default;
-    background-color: ${({theme}) => theme.backgroundColors.secondary};
+    background-color: ${({theme}) => theme.backgroundColors.card};
     color: ${({theme}) => theme.textColors.secondary};
   }
 `
@@ -47,11 +48,13 @@ const CreateChat = () => {
   const {fetchContactInfo} = useWhatsAppStore(state => state.actions)
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const value: string = ((e.target[0].value || '') as string)
+    let value: string = ((e.target[0].value || '') as string)
       .replaceAll('+', '')
       .replaceAll(' ', '')
-      .replaceAll('-', '')
-
+      .replaceAll('-', '')  
+    if (value.startsWith('8')) {
+      value = `7${value.slice(1)}`
+    }
     if (contactInfo && contactInfo.chatId.includes(value)) return
     fetchContactInfo(value)
   }

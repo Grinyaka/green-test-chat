@@ -6,6 +6,6 @@ export const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   
-  flex-grow: 1;
-  overflow-y: scroll;
+  height: 100%;
+  overflow: hidden;
 `

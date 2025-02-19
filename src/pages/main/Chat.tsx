@@ -1,8 +1,10 @@
-import React, {useEffect} from 'react'
+import {useEffect} from 'react'
 import styled from 'styled-components'
 import CreateChat from './CreateChat'
 import useWhatsAppStore from '../../store/whatsAppStore'
-import {shallow, useShallow} from 'zustand/shallow'
+import {useShallow} from 'zustand/shallow'
+import MessageForm from './MessageForm'
+import MessagesList from './MessagesList'
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,6 +23,7 @@ const Wrapper = styled.div`
 const ChatContent = styled.div`
   flex-grow: 1;
   display: flex;
+  overflow: auto;
   flex-direction: column;
   background-color: ${({theme}) => theme.backgroundColors.card};
 `
@@ -70,9 +73,11 @@ const Chat = () => {
         {contactInfo ? (
           <>
             <Contact>
-              <ContactAvatar src={contactInfo.avatar} />
-              {contactInfo.contactName}
+              {contactInfo.avatar && <ContactAvatar src={contactInfo.avatar} />}
+              {contactInfo.contactName || contactInfo.name}
             </Contact>
+            <MessagesList />
+            <MessageForm />
           </>
         ) : isLoading ? (
           <InfoMsg>Loading...</InfoMsg>

@@ -95,7 +95,10 @@ const useWhatsAppStore = create<WhatsAppStoreI>()((set, get) => ({
       set({isLoading: true, error: null})
 
       try {
-        await sendMessage(instanceId, apiToken, chatId, message)
+        const response = sendMessage(instanceId, apiToken, chatId, message)
+        if (response) {
+          get().actions.fetchNotifications()
+        }
       } catch (error) {
         set({error: error.message})
       } finally {
@@ -112,8 +115,8 @@ const useWhatsAppStore = create<WhatsAppStoreI>()((set, get) => ({
       const currentContact = get().contactInfo
       if (!currentContact) return
       try {
-        const notification = await receiveNotification(instanceId, apiToken)
-        if (notification) {
+        const notification: {receiptId: number, body: WebhookResponse.MessageWebhook} = await receiveNotification(instanceId, apiToken)
+        if (notification && notification.body.senderData.chatId === currentContact.chatId) {
           get().actions.addMessage(notification.body)
           await deleteNotification(instanceId, apiToken, notification.receiptId)
         }
