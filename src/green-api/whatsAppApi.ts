@@ -1,5 +1,25 @@
 const API_URL = 'https://api.green-api.com'
 
+export const setSettings = async (
+  idInstance: string,
+  apiTokenInstance: string
+) => {
+
+  const newSettings = {
+    webhookUrl: '',
+    outgoingWebhook: 'yes',
+    stateWebhook: 'yes',
+    incomingWebhook: 'yes',
+  }
+  await fetch(`${API_URL}/waInstance${idInstance}/setSettings/${apiTokenInstance}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({newSettings}),
+  })
+}
+
 export const getContactInfo = async (
   idInstance: string,
   apiTokenInstance: string,
@@ -50,7 +70,7 @@ export const sendMessage = async (
 export const receiveNotification = async (
   idInstance: string,
   apiTokenInstance: string,
-  receiveTimeout: number = 20,
+  receiveTimeout: number = 10,
 ) => {
   const response = await fetch(
     `${API_URL}/waInstance${idInstance}/receiveNotification/${apiTokenInstance}?receiveTimeout=${receiveTimeout}`,

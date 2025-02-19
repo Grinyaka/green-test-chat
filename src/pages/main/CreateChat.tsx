@@ -7,6 +7,8 @@ const PhoneForm = styled.form`
   gap: 5px;
   width: 100%;
   font-size: ${({theme}) => theme.fontSizes.medium};
+  background-color: ${({theme}) => theme.backgroundColors.secondary};
+  margin-bottom: 10px;
 `
 const PhoneInput = styled.input`
   all: unset;
@@ -25,7 +27,7 @@ const PhoneButton = styled.button`
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  background-color: ${({theme}) => theme.backgroundColors.accent};
+  background-color: ${({theme}) => theme.backgroundColors.button};
 
   transition: all 0.2s ease-in-out;
   color: ${({theme}) => theme.textColors.accent};

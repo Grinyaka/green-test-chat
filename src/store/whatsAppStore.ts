@@ -1,11 +1,12 @@
-import {create} from 'zustand'
+import { InstanceResponse, WebhookResponse } from '@green-api/whatsapp-api-client'
+import { create } from 'zustand'
 import {
-  getContactInfo,
-  sendMessage,
-  receiveNotification,
   deleteNotification,
+  getContactInfo,
+  receiveNotification,
+  sendMessage,
+  setSettings,
 } from '../green-api/whatsAppApi'
-import {WebhookResponse, InstanceResponse} from '@green-api/whatsapp-api-client'
 
 interface WhatsAppStoreI {
   messages: WebhookResponse.MessageWebhook[]
@@ -30,7 +31,7 @@ interface WhatsAppStoreI {
   }
 }
 
-const useWhatsAppStore = create<WhatsAppStoreI>((set, get) => ({
+const useWhatsAppStore = create<WhatsAppStoreI>()((set, get) => ({
   messages: [],
   isLoading: false,
   credentials: {
@@ -55,6 +56,7 @@ const useWhatsAppStore = create<WhatsAppStoreI>((set, get) => ({
     },
 
     setCredentials: (credentials) => {
+      setSettings(credentials.instanceId, credentials.apiToken)
       set({credentials})
       set({isLoggedIn: true})
     },
@@ -101,26 +103,22 @@ const useWhatsAppStore = create<WhatsAppStoreI>((set, get) => ({
       }
     },
 
-    // Получение уведомлений
     fetchNotifications: async () => {
       const {instanceId, apiToken} = get().credentials
       if (!instanceId || !apiToken) {
         set({error: 'Данные авторизации не указаны'})
         return
       }
-
-      set({isLoading: true, error: null})
-
+      const currentContact = get().contactInfo
+      if (!currentContact) return
       try {
         const notification = await receiveNotification(instanceId, apiToken)
         if (notification) {
-          get().actions.addMessage(notification.body) // Добавляем уведомление в список сообщений
-          await deleteNotification(instanceId, apiToken, notification.receiptId) // Удаляем уведомление
+          get().actions.addMessage(notification.body)
+          await deleteNotification(instanceId, apiToken, notification.receiptId)
         }
       } catch (error) {
         set({error: error.message})
-      } finally {
-        set({isLoading: false})
       }
     },
   },
