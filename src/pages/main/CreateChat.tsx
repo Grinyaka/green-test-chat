@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import {getChatUserData} from '../../green-api'
 import useWhatsAppStore from '../../store/whatsAppStore'
 
 const PhoneForm = styled.form`
@@ -43,7 +42,7 @@ const PhoneButton = styled.button`
 
 const CreateChat = () => {
   const contactInfo = useWhatsAppStore((state) => state.contactInfo)
-
+  const {fetchContactInfo} = useWhatsAppStore(state => state.actions)
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const value: string = ((e.target[0].value || '') as string)
@@ -52,7 +51,7 @@ const CreateChat = () => {
       .replaceAll('-', '')
 
     if (contactInfo && contactInfo.chatId.includes(value)) return
-    getChatUserData(value)
+    fetchContactInfo(value)
   }
 
   return (
